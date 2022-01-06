@@ -1,16 +1,47 @@
 const express = require("express");
 const mongoose = require("mongoose");
+mongoose.Promise = Promise;
 const ShortUrl = require("./models/ShortUrl");
 const app = express();
 
-try {
-  mongoose.connect(`${process.env.DATABASE_URL}`, {
+require("dotenv").config();
+
+mongoose.connection.on("connected", () => {
+  console.log("Connection Established");
+});
+
+mongoose.connection.on("reconnected", () => {
+  console.log("Connection Reestablished");
+});
+
+mongoose.connection.on("disconnected", () => {
+  console.log("Connection Disconnected");
+});
+
+mongoose.connection.on("close", () => {
+  console.log("Connection Closed");
+});
+
+mongoose.connection.on("error", (error) => {
+  console.log("ERROR: " + error);
+});
+
+const run = async () => {
+  await mongoose.connect(`${process.env.DATABASE_URL}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
-} catch (error) {
-  console.error({ error: error });
-}
+};
+
+run()
+  .then(() => {
+    app.listen(process.env.PORT || 5000, () => {
+      console.log(`server listening on Port: ${process.env.PORT || 5000}`);
+    });
+  })
+  .catch((error) => {
+    console.error(error);
+  });
 
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
@@ -36,5 +67,3 @@ app.get("/:shortUrl", async (req, res) => {
 
   res.redirect(shortUrl.originalUrl);
 });
-
-app.listen(process.env.PORT || 5000);
