@@ -20,6 +20,7 @@ app.get("/", async (req, res) => {
   res.render("index", { shortUrls: shortUrls });
 });
 
+// /shortUrls will be called when the shorten button is pressed
 app.post("/shortUrls", async (req, res) => {
   await ShortUrl.create({
     originalUrl: req.body.originalUrl,

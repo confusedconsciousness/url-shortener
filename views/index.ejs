@@ -12,11 +12,13 @@
     <div class="container">
         <h1>URL Shortener</h1>
         <form action="/shortUrls" method="POST" style="display: flex;">            
-            <input required placeholder="Url" type="url", name="originalUrl", id="originalUrl" class="mr-1 form-control col">
-            <button type="submit" class="btn btn-primary">Shorten</button>
+            <input required placeholder="Url" type="url", name="originalUrl", id="originalUrl" class="mr-1 form-control col" style="margin: 5px;">
+            <button type="submit" class="btn btn-primary" style="margin: 5px;">Shorten</button>
         </form>
 
-        <table class="table table-striped table-responsive">
+        <h5 style="margin-top: 20px;">Recent Shortened URLs</h5>
+        <table class="table table-striped table-responsive table-hover" >
+            
             <thead>
                 <tr>
                     <th scope="col">
